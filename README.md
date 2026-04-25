@@ -44,12 +44,6 @@ To experience the world of VELARIS locally:
 4. **Visit the universe**:
    Open `http://localhost:4000` in your browser.
 
-## 🔒 Security & Safety
-
-- **No Secrets**: This is a frontend-focused architectural demonstration. No sensitive API keys or database credentials are stored in the repository.
-- **Dependency Management**: Standard `package.json` is used for safe, version-controlled library management.
-- **Optimized Assets**: High-resolution assets are optimized for fast loading and secure distribution.
-
 ## 🖋 License
 
 © 2026 VELARIS. Designed for those who appreciate the invisible beauty.
