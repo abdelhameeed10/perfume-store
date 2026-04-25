@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Collection | VELARIS</title>
+    <link rel="stylesheet" href="css/luxury-styles.css">
+    <style>
+        .collection-hero {
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 80px;
+            /* Added padding to push content down from navbar */
+        }
+
+        .category-bg-text {
+            position: absolute;
+            font-family: var(--font-heading);
+            font-size: 25vw;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.02);
+            z-index: 0;
+            white-space: nowrap;
+            pointer-events: none;
+            text-transform: uppercase;
+        }
+
+        .manifesto-box {
+            z-index: 1;
+            max-width: 800px;
+            padding: 0 5%;
+        }
+
+        .category-quote {
+            font-family: var(--font-heading);
+            font-style: italic;
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            color: var(--color-gold);
+            margin-bottom: 1rem;
+            margin-top: 60px;
+            opacity: 0.8;
+        }
+
+        .collection-title {
+            font-size: clamp(3rem, 7vw, 6rem);
+            line-height: 1;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .filter-nav-elite {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 40px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            margin-bottom: 80px;
+        }
+
+        .filter-link {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: #666;
+            transition: all 0.5s;
+            position: relative;
+        }
+
+        .filter-link.active {
+            color: var(--color-gold);
+        }
+
+        .filter-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--color-gold);
+        }
+
+        .gallery-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 5% 150px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 100px 50px;
+        }
+
+        /* Ambient Glow based on category */
+        .page-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            transition: background 2s ease;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor-dot"></div>
+    <div class="scent-wipe"></div>
+    <div id="page-glow" class="page-glow"></div>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">VELARIS</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html?category=all">Collection</a></li>
+            <li><a href="quiz.html">Discovery Quiz</a></li>
+        </ul>
+        <div class="nav-icons">
+            <svg id="search-trigger" viewBox="0 0 24 24">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+            </svg>
+            <div id="mobile-toggle" class="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="mobile-menu">
+        <ul class="mobile-nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html?category=all">Collection</a></li>
+            <li><a href="quiz.html">Discovery Quiz</a></li>
+            <li style="margin-top: 40px; opacity: 0.3; font-size: 0.6rem; letter-spacing: 0.5em;">Categories</li>
+            <li><a href="collection.html?category=dark">Dark</a></li>
+            <li><a href="collection.html?category=fresh">Fresh</a></li>
+            <li><a href="collection.html?category=romantic">Romantic</a></li>
+            <li><a href="collection.html?category=powerful">Powerful</a></li>
+            <li><a href="collection.html?category=balanced">Balanced</a></li>
+        </ul>
+    </div>
+
+    <!-- Search Overlay -->
+    <div id="search-overlay" class="search-overlay">
+        <button id="search-close" class="search-close">&times;</button>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search the collection..." autocomplete="off">
+            <div id="search-results" class="search-results"></div>
+        </div>
+    </div>
+
+    <main>
+        <header class="collection-hero">
+            <div id="bg-text" class="category-bg-text">COLLECTION</div>
+            <div class="manifesto-box gsap-fade-up">
+                <p id="cat-quote" class="category-quote">Curating the invisible.</p>
+                <h1 id="cat-title" class="collection-title">The Collection</h1>
+            </div>
+        </header>
+
+        <nav class="filter-nav-elite">
+            <a href="#" class="filter-link" data-filter="all">All</a>
+            <a href="#" class="filter-link" data-filter="dark">Dark</a>
+            <a href="#" class="filter-link" data-filter="fresh">Fresh</a>
+            <a href="#" class="filter-link" data-filter="romantic">Romantic</a>
+            <a href="#" class="filter-link" data-filter="powerful">Powerful</a>
+            <a href="#" class="filter-link" data-filter="balanced">Balanced</a>
+        </nav>
+
+        <section class="gallery-container" id="collection-grid">
+            <!-- Dynamic items -->
+        </section>
+    </main>
+
+    <footer class="gsap-fade-up">
+        <a href="index.html" class="footer-logo">VELARIS</a>
+        <ul class="footer-links">
+            <li><a href="#">The Experience</a></li>
+            <li><a href="#">Boutiques</a></li>
+            <li><a href="#">Legal</a></li>
+        </ul>
+        <p class="copyright">&copy; 2026 VELARIS. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="js/product-data.js"></script>
+    <script src="js/animations.js"></script>
+    <script>
+        const categoryData = {
+            all: { title: "The Collection", quote: "A library of sensory archetypes.", bg: "COLLECTION", glow: "radial-gradient(circle at 50% 50%, #151515 0%, #0B0B0B 100%)" },
+            dark: { title: "The Dark Collection", quote: "The beauty of what stays hidden.", bg: "MIDNIGHT", glow: "radial-gradient(circle at 50% 50%, #0D0B14 0%, #0B0B0B 100%)" },
+            fresh: { title: "The Fresh Collection", quote: "Infinite horizons, weightless freedom.", bg: "AZURE", glow: "radial-gradient(circle at 50% 50%, #0B1214 0%, #0B0B0B 100%)" },
+            romantic: { title: "The Romantic Collection", quote: "Poetry written in soft petals.", bg: "VELVET", glow: "radial-gradient(circle at 50% 50%, #140B0E 0%, #0B0B0B 100%)" },
+            powerful: { title: "The Powerful Collection", quote: "The fire of an unshakeable legacy.", bg: "OBSIDIAN", glow: "radial-gradient(circle at 50% 50%, #140F0B 0%, #0B0B0B 100%)" },
+            balanced: { title: "The Balanced Collection", quote: "Perfect harmony between extremes.", bg: "ECLIPSE", glow: "radial-gradient(circle at 50% 50%, #11140B 0%, #0B0B0B 100%)" }
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const grid = document.getElementById('collection-grid');
+            const filterLinks = document.querySelectorAll('.filter-link');
+            const catTitle = document.getElementById('cat-title');
+            const catQuote = document.getElementById('cat-quote');
+            const bgText = document.getElementById('bg-text');
+            const pageGlow = document.getElementById('page-glow');
+
+            function updateHeader(filter) {
+                const data = categoryData[filter] || categoryData.all;
+
+                gsap.to([catTitle, catQuote, bgText], {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.5,
+                    onComplete: () => {
+                        catTitle.innerText = data.title;
+                        catQuote.innerText = data.quote;
+                        bgText.innerText = data.bg;
+                        pageGlow.style.background = data.glow;
+
+                        gsap.to([catTitle, catQuote, bgText], {
+                            opacity: 1,
+                            y: 0,
+                            duration: 1,
+                            ease: "power3.out"
+                        });
+
+                        // Faintly pulse bgText
+                        gsap.fromTo(bgText, { opacity: 0 }, { opacity: 0.02, duration: 2 });
+                    }
+                });
+            }
+
+            function renderCollection(filter = 'all') {
+                updateHeader(filter);
+                grid.innerHTML = '';
+
+                const filteredProducts = Object.entries(perfumeDatabase).filter(([id, p]) => filter === 'all' || p.category === filter);
+
+                filteredProducts.forEach(([id, product]) => {
+                    const item = document.createElement('a');
+                    item.href = `perfume.html?id=${id}`;
+                    item.className = 'editorial-item';
+                    item.innerHTML = `
+                        <span class="category-label">${product.category}</span>
+                        <div class="editorial-img-wrapper"><img src="${product.image}" alt="${product.name}" class="breathing"></div>
+                        <h3 class="editorial-title">${product.name}</h3>
+                        <span class="editorial-subtitle">${product.tagline}</span>
+                    `;
+                    grid.appendChild(item);
+                });
+
+                gsap.from(".editorial-item", {
+                    opacity: 0,
+                    y: 60,
+                    scale: 0.95,
+                    duration: 1.5,
+                    stagger: 0.1,
+                    ease: "power4.out"
+                });
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialFilter = urlParams.get('category') || 'all';
+
+            filterLinks.forEach(link => {
+                if (link.getAttribute('data-filter') === initialFilter) link.classList.add('active');
+
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const newFilter = link.getAttribute('data-filter');
+                    filterLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+
+                    gsap.to(".editorial-item", {
+                        opacity: 0,
+                        scale: 0.9,
+                        y: 30,
+                        duration: 0.6,
+                        stagger: 0.05,
+                        onComplete: () => renderCollection(newFilter)
+                    });
+                });
+            });
+
+            renderCollection(initialFilter);
+        });
+    </script>
+</body>
+
+</html>

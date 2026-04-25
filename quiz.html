@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scent Discovery | VELARIS</title>
+    <link rel="stylesheet" href="css/luxury-styles.css">
+    <style>
+        .quiz-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 150px 5%;
+            background: #0B0B0B;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Ambient Glow */
+        .ambient-glow {
+            position: absolute;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(186, 158, 89, 0.05) 0%, rgba(11, 11, 11, 0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .quiz-intro {
+            text-align: center;
+            max-width: 800px;
+            margin-bottom: 100px;
+            z-index: 1;
+        }
+
+        .quiz-question {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-family: var(--font-heading);
+            font-style: italic;
+            color: var(--color-white);
+            margin-bottom: 60px;
+            text-align: center;
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        /* Editorial Asymmetrical Grid */
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 1400px;
+            z-index: 1;
+        }
+
+        .quiz-option {
+            grid-column: span 3;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px 40px;
+            cursor: pointer;
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 450px;
+            position: relative;
+        }
+
+        /* Museum Numbering */
+        .quiz-option::before {
+            content: attr(data-number);
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
+            color: var(--color-gold);
+            letter-spacing: 0.2em;
+        }
+
+        .quiz-option:nth-child(even) {
+            transform: translateY(40px);
+        }
+
+        .quiz-option:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--color-gold);
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .quiz-option h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-white);
+            letter-spacing: 0.05em;
+        }
+
+        .quiz-option p {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            transition: color 0.6s;
+        }
+
+        .quiz-option:hover p {
+            color: var(--color-beige);
+        }
+
+        /* Result Section - Advertising Style */
+        #quiz-result {
+            display: none;
+            grid-template-columns: 1fr 1.2fr;
+            align-items: center;
+            gap: 100px;
+            opacity: 0;
+            transform: translateY(50px);
+            max-width: 1200px;
+            width: 100%;
+            z-index: 2;
+        }
+
+        .result-image-side {
+            position: relative;
+            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #0B0B0B 100%);
+            padding: 80px;
+            border: 1px solid rgba(186, 158, 89, 0.1);
+        }
+
+        #result-img {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 30px 60px rgba(0,0,0,0.8));
+        }
+
+        .result-content-side {
+            text-align: left;
+        }
+
+        #result-title {
+            font-size: clamp(4rem, 8vw, 7rem);
+            line-height: 0.9;
+            margin-bottom: 30px;
+            letter-spacing: -0.02em;
+        }
+
+        #result-desc {
+            font-size: 1.5rem;
+            color: var(--color-beige);
+            margin-bottom: 50px;
+            line-height: 1.6;
+            font-family: var(--font-heading);
+            font-style: italic;
+            border-left: 2px solid var(--color-gold);
+            padding-left: 30px;
+        }
+
+        @media (max-width: 968px) {
+            .quiz-grid { display: flex; flex-direction: column; }
+            .quiz-option { grid-column: span 12; min-height: 300px; margin-bottom: 20px; }
+            #quiz-result { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+            .result-content-side { text-align: center; }
+            #result-desc { border-left: none; padding-left: 0; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor-dot"></div>
+    <div class="scent-wipe"></div>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">VELARIS</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html?category=all">Collection</a></li>
+            <li><a href="quiz.html">Discovery Quiz</a></li>
+        </ul>
+        <div class="nav-icons">
+            <svg id="search-trigger" viewBox="0 0 24 24">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+            </svg>
+            <div id="mobile-toggle" class="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="mobile-menu">
+        <ul class="mobile-nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collection.html?category=all">Collection</a></li>
+            <li><a href="quiz.html">Discovery Quiz</a></li>
+            <li style="margin-top: 40px; opacity: 0.3; font-size: 0.6rem; letter-spacing: 0.5em;">Categories</li>
+            <li><a href="collection.html?category=dark">Dark</a></li>
+            <li><a href="collection.html?category=fresh">Fresh</a></li>
+            <li><a href="collection.html?category=romantic">Romantic</a></li>
+            <li><a href="collection.html?category=powerful">Powerful</a></li>
+            <li><a href="collection.html?category=balanced">Balanced</a></li>
+        </ul>
+    </div>
+
+    <!-- Search Overlay -->
+    <div id="search-overlay" class="search-overlay">
+        <button id="search-close" class="search-close">&times;</button>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search the collection..." autocomplete="off">
+            <div id="search-results" class="search-results"></div>
+        </div>
+    </div>
+
+    <main class="quiz-container">
+        <div class="ambient-glow"></div>
+
+        <div id="quiz-intro-box" class="quiz-intro gsap-fade-up">
+            <span class="category-label">Digital Concierge</span>
+            <h1 class="hero-title" style="margin-bottom: 2rem;">The Discovery</h1>
+            <p style="color: #666; font-size: 1.1rem; letter-spacing: 0.05em;">Through a series of sensory archetypes, we will identify the one presence that mirrors your own.</p>
+        </div>
+
+        <h2 id="quiz-question" class="quiz-question gsap-fade-up">Choose the atmosphere that calls to you...</h2>
+
+        <div id="quiz-options" class="quiz-grid">
+            <div class="quiz-option gsap-fade-up" data-number="01" onclick="selectMood('dark')">
+                <h3>The Midnight Gala</h3>
+                <p>Mysterious, velvet-draped, and thriving in the seductive silence of a candlelit manor.</p>
+            </div>
+            <div class="quiz-option gsap-fade-up" data-number="02" onclick="selectMood('fresh')">
+                <h3>Aegean Sunrise</h3>
+                <p>Infinite glass horizons, the spray of the ocean, and the absolute weightlessness of freedom.</p>
+            </div>
+            <div class="quiz-option gsap-fade-up" data-number="03" onclick="selectMood('romantic')">
+                <h3>Versailles at Dusk</h3>
+                <p>Whispers behind silk fans, soft peony petals, and the poetic grace of an eternal romance.</p>
+            </div>
+            <div class="quiz-option gsap-fade-up" data-number="04" onclick="selectMood('powerful')">
+                <h3>The Obsidian Throne</h3>
+                <p>Ancient resins, controlled fire, and the magnetic confidence of an unshakeable legacy.</p>
+            </div>
+        </div>
+
+        <section id="quiz-result">
+            <div class="result-image-side">
+                <img id="result-img" src="" alt="Result">
+            </div>
+            <div class="result-content-side">
+                <span class="result-label">Your Archetype Found</span>
+                <h1 id="result-title"></h1>
+                <p id="result-desc"></p>
+                <div class="magnetic-wrap">
+                    <a href="" id="result-link" class="btn">Experience the Scent</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="gsap-fade-up">
+        <a href="index.html" class="footer-logo">VELARIS</a>
+        <ul class="footer-links">
+            <li><a href="#">The Experience</a></li>
+            <li><a href="#">Boutiques</a></li>
+            <li><a href="#">Legal</a></li>
+        </ul>
+        <p class="copyright">&copy; 2026 VELARIS. All Rights Reserved.</p>
+    </footer>
+
+    <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="js/product-data.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+
+</html>

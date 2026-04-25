@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="image/LOGO-Transparent.png">
+    <title>VELARIS | Ultra-Premium Digital Universe</title>
+    <!-- Lenis Smooth Scroll CSS -->
+    <style>
+        html.lenis,
+        html.lenis body {
+            height: auto;
+            width: 100vw;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-smooth iframe {
+            pointer-events: none;
+        }
+    </style>
+    <link rel="stylesheet" href="css/luxury-styles.css">
+</head>
+
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+
+    <!-- Cinematic Loading Screen -->
+    <div class="loader">
+        <h1 class="loader-text">VELARIS</h1>
+    </div>
+
+    <!-- Scent Wipe Transition -->
+    <div class="scent-wipe"></div>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">VELARIS</a>
+        <ul class="nav-links">
+            <li><a href="collection.html?category=dark">Dark</a></li>
+            <li><a href="collection.html?category=fresh">Fresh</a></li>
+            <li><a href="collection.html?category=romantic">Romantic</a></li>
+            <li><a href="collection.html?category=powerful">Powerful</a></li>
+            <li><a href="collection.html?category=balanced">Balanced</a></li>
+        </ul>
+        <div class="nav-icons">
+            <svg id="search-trigger" viewBox="0 0 24 24">
+                <path
+                    d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+            </svg>
+            <div id="mobile-toggle" class="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="mobile-menu">
+        <ul class="mobile-nav-links">
+            <li><a href="collection.html?category=dark">Dark</a></li>
+            <li><a href="collection.html?category=fresh">Fresh</a></li>
+            <li><a href="collection.html?category=romantic">Romantic</a></li>
+            <li><a href="collection.html?category=powerful">Powerful</a></li>
+            <li><a href="collection.html?category=balanced">Balanced</a></li>
+            <li><a href="quiz.html" style="margin-top: 40px; color: var(--color-gold);">Discovery Quiz</a></li>
+        </ul>
+    </div>
+
+    <!-- Search Overlay -->
+    <div id="search-overlay" class="search-overlay">
+        <button id="search-close" class="search-close">&times;</button>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search the collection..." autocomplete="off">
+            <div id="search-results" class="search-results"></div>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <header class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Not a scent.<br>A presence.</h1>
+            <div class="magnetic-wrap">
+                <a href="quiz.html" class="btn">Discover Your Scent</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Story Mode -->
+    <section id="story" class="story-section gsap-fade-up">
+        <p class="story-text">
+            "What if scent was a language?"
+        </p>
+        <p
+            style="color:#888; font-family:var(--font-body); font-style:normal; margin-top:3rem; font-size:clamp(1rem, 1.5vw, 1.2rem); letter-spacing:0.1em; max-width:700px; margin-left:auto; margin-right:auto; line-height: 2;">
+            VELARIS was never meant to follow. It was meant to translate human emotions into an invisible, unforgettable
+            form. Each perfume is a moment. A memory. A personality.
+        </p>
+    </section>
+
+    <!-- Scent Finder -->
+    <section id="quiz" class="quiz-section">
+        <h2 id="quiz-question" class="quiz-question gsap-fade-up">How do you want to feel?</h2>
+        <div id="quiz-options" class="quiz-options gsap-fade-up">
+            <button class="quiz-option"
+                onclick="window.location.href='collection.html?category=dark'">Mysterious</button>
+            <button class="quiz-option" onclick="window.location.href='collection.html?category=fresh'">Fresh</button>
+            <button class="quiz-option"
+                onclick="window.location.href='collection.html?category=romantic'">Romantic</button>
+            <button class="quiz-option" onclick="window.location.href='collection.html?category=powerful'">Bold</button>
+            <button class="quiz-option"
+                onclick="window.location.href='collection.html?category=balanced'">Balanced</button>
+        </div>
+
+        <div id="quiz-result" class="quiz-result">
+            <h2
+                style="font-size: clamp(0.9rem, 1.5vw, 1.2rem); letter-spacing: 0.3em; color: var(--color-gold); margin-bottom: 2rem; text-transform: uppercase;">
+                Your Signature</h2>
+            <img id="result-img" src="" alt="Scent Image">
+            <h3 id="result-title"></h3>
+            <p id="result-desc"></p>
+            <div class="magnetic-wrap">
+                <a id="result-link" href="#" class="btn">Experience the Mood</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Emotional Spectrum Grid -->
+    <section class="featured">
+        <h2 class="section-title gsap-fade-up">The Emotional Spectrum</h2>
+        <div class="editorial-grid">
+
+            <a href="perfume.html?id=nox" class="editorial-item gsap-fade-up" data-category="dark">
+                <div class="editorial-img-wrapper"><img src="image/NOX.png" alt="NOX"></div>
+                <h3 class="editorial-title">NOX</h3>
+                <span class="editorial-subtitle">Where darkness becomes desire.</span>
+            </a>
+
+            <a href="perfume.html?id=aeris" class="editorial-item gsap-fade-up" data-category="fresh">
+                <div class="editorial-img-wrapper"><img src="image/AERIS.png" alt="AERIS"></div>
+                <h3 class="editorial-title">AERIS</h3>
+                <span class="editorial-subtitle">Light, redefined.</span>
+            </a>
+
+            <a href="perfume.html?id=velum" class="editorial-item gsap-fade-up" data-category="romantic">
+                <div class="editorial-img-wrapper"><img src="image/VELUM.png" alt="VELUM"></div>
+                <h3 class="editorial-title">VELUM</h3>
+                <span class="editorial-subtitle">Softness with a hidden depth.</span>
+            </a>
+
+            <a href="perfume.html?id=ignis" class="editorial-item gsap-fade-up" data-category="powerful">
+                <div class="editorial-img-wrapper"><img src="image/IGNIS.jpg" alt="IGNIS"></div>
+                <h3 class="editorial-title">IGNIS</h3>
+                <span class="editorial-subtitle">Controlled fire.</span>
+            </a>
+
+            <a href="perfume.html?id=lumen" class="editorial-item gsap-fade-up" data-category="balanced">
+                <div class="editorial-img-wrapper"><img src="image/LUMEN.jpg" alt="LUMEN"></div>
+                <h3 class="editorial-title">LUMEN</h3>
+                <span class="editorial-subtitle">The glow within.</span>
+            </a>
+
+            <a href="perfume.html?id=umbra" class="editorial-item gsap-fade-up" data-category="dark">
+                <div class="editorial-img-wrapper"><img src="image/UMBRA.jpg" alt="UMBRA"></div>
+                <h3 class="editorial-title">UMBRA</h3>
+                <span class="editorial-subtitle">The beauty of shadow.</span>
+            </a>
+
+            <a href="perfume.html?id=flora" class="editorial-item gsap-fade-up" data-category="romantic">
+                <div class="editorial-img-wrapper"><img src="image/FLORA.jpg" alt="FLORA"></div>
+                <h3 class="editorial-title">FLORA</h3>
+                <span class="editorial-subtitle">The whisper of petals.</span>
+            </a>
+
+            <a href="perfume.html?id=eclis" class="editorial-item gsap-fade-up" data-category="balanced">
+                <div class="editorial-img-wrapper"><img src="image/ECLIS.jpg" alt="ECLIS"></div>
+                <h3 class="editorial-title">ECLIS</h3>
+                <span class="editorial-subtitle">Between light and dark.</span>
+            </a>
+
+            <a href="perfume.html?id=sylva" class="editorial-item gsap-fade-up" data-category="fresh">
+                <div class="editorial-img-wrapper"><img src="image/SYLVA.jpg" alt="SYLVA"></div>
+                <h3 class="editorial-title">SYLVA</h3>
+                <span class="editorial-subtitle">Nature, untouched.</span>
+            </a>
+
+            <a href="perfume.html?id=glacia" class="editorial-item gsap-fade-up" data-category="fresh">
+                <div class="editorial-img-wrapper"><img src="image/GLACIA.png" alt="GLACIA"></div>
+                <h3 class="editorial-title">GLACIA</h3>
+                <span class="editorial-subtitle">Cold, yet captivating.</span>
+            </a>
+
+            <a href="perfume.html?id=aura" class="editorial-item gsap-fade-up" data-category="balanced">
+                <div class="editorial-img-wrapper"><img src="image/AURA.png" alt="AURA"></div>
+                <h3 class="editorial-title">AURA</h3>
+                <span class="editorial-subtitle">Invisible, unforgettable.</span>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="gsap-fade-up">
+        <a href="index.html" class="footer-logo">VELARIS</a>
+        <ul class="footer-links">
+            <li><a href="#">The Experience</a></li>
+            <li><a href="#">Boutiques</a></li>
+            <li><a href="#">Legal</a></li>
+        </ul>
+        <p class="copyright">&copy; 2026 VELARIS. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="js/product-data.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+
+</html>
